@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  db-master:
+    build:
+      context: ./master
+      dockerfile: Dockerfile
+    container_name: mariadb_master
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadbdata_master:/var/lib/mariadbdata_master
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: ${MARIADB_ALLOW_EMPTY_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      TZ: "Asia/Jakarta"
+    networks:
+      database_net:
+        ipv4_address: 10.0.1.10
+    healthcheck:
+      test: "mysqladmin ping -h 10.0.1.10"
+      interval: 2s
+      retries: 20
+  db-slave:
+    build:
+      context: ./slave
+      dockerfile: Dockerfile
+    container_name: mariadb_slave
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadbdata_slave:/var/lib/mariadbdata_slave
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: ${MARIADB_ALLOW_EMPTY_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      TZ: "Asia/Jakarta"
+    networks:
+      database_net:
+        ipv4_address: 10.0.1.11
+    healthcheck:
+      test: "mysqladmin ping -h 10.0.1.11"
+      interval: 2s
+      retries: 20
+
+networks:
+  database_net:
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
+    external: false
+
+volumes:
+  mariadbdata_master:
+  mariadbdata_slave:
