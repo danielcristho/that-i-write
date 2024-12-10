@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    libvirt = {
+      source = "dmacvicar/libvirt"
+      version = "0.8.1"
+    }
+  }
+}
+
 provider "libvirt" {
   uri = "qemu:///system"
 }
@@ -8,7 +17,6 @@ resource "null_resource" "cache_image" {
   }
 }
 
-# Volume untuk base image
 resource "libvirt_volume" "base" {
   name   = "base.qcow2"
   source = "/tmp/ubuntu-20.04.qcow2"
@@ -17,7 +25,6 @@ resource "libvirt_volume" "base" {
   depends_on = [null_resource.cache_image]
 }
 
-# Volume untuk VM dengan ukuran 10GB
 resource "libvirt_volume" "ubuntu20-qcow2" {
   count          = length(var.vm_hostnames)
   name           = "ubuntu20-${count.index}.qcow2"

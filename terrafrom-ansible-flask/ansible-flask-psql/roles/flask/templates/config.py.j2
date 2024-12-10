@@ -1,0 +1,9 @@
+DEV_DB = 'sqlite:///task.db'
+
+pg_user = "{{ db_user }}"
+pg_pass = "{{ db_password }}"
+pg_db = "{{ db_name }}"
+pg_port = {{ db_port }}
+pg_host = "{{ db_host }}"
+
+PROD_DB = f'postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}'

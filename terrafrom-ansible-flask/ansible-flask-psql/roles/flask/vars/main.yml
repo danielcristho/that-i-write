@@ -1,0 +1,6 @@
+---
+db_port: 5433
+db_user: admin
+db_password: dbPassword
+db_name: todo
+db_host:  192.168.122.15

@@ -1,0 +1,16 @@
+---
+- name: Deploy Flask
+  hosts: vm1
+  become: true
+  remote_user: ubuntu
+  roles:
+    - docker
+    - flask
+
+- name: Deploy Postgresql
+  hosts: vm2
+  become: true
+  remote_user: ubuntu
+  roles:
+    - docker
+    - psql

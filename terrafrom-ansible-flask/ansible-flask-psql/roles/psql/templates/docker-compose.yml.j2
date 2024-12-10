@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  postgres:
+      image: postgres:13
+      container_name: db
+      restart: unless-stopped
+      ports:
+        - {{ db_port }}:5432
+      networks:
+        - flask_network
+      environment:
+        - POSTGRES_USER={{ db_user }}
+        - POSTGRES_PASSWORD={{ db_password }}
+        - POSTGRES_DB={{ db_name }}
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+networks:
+  flask_network:
+
+volumes:
+  postgres_data:

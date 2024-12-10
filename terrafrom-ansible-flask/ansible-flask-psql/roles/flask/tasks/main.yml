@@ -1,0 +1,24 @@
+---
+- name: Clone html project
+  changed_when: false
+  ansible.builtin.git:
+    repo: https://github.com/danielcristho/Flask_TODO.git
+    dest: /home/ubuntu/Flask_TODO
+    clone: true
+
+- name: Add Flask Compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /home/ubuntu/Flask_TODO/docker-compose.yml
+    mode: preserve
+
+- name: Update config.py
+  ansible.builtin.template:
+    src: config.py.j2
+    dest: /home/ubuntu/Flask_TODO/flask/app/config.py
+    mode: preserve
+
+- name: Run docker-compose up -d
+  shell: docker-compose up -d --build
+  args:
+    chdir: /home/ubuntu/Flask_TODO
