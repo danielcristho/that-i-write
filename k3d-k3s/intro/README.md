@@ -332,3 +332,10 @@ $ http://172.18.0.2:30893
 K3D simplifies the process of running Kubernetes clusters with K3S on Docker, making it ideal for local development and testing. By setting up essential tools like Docker, kubectl, and K3D, you can easily create and manage clusters. You can deploy applications with just a few commands, expose them, and access them locally. K3D offers a flexible and lightweight solution for Kubernetes, allowing developers to experiment and work with clusters in an efficient way.
 
 Thank you for taking the time to read this guide. I hope it was helpful in getting you started with K3D and Kubernetes!😀
+
+References:
+
+- K3S Official Documentation. https://docs.k3s.io
+- Rancher K3S. https://www.rancher.com/products/k3s
+- K3D Official Documentation. https://k3d.io/stable
+- Traefik Glossary: K3S Explained. https://traefik.io/glossary/k3s-explained
