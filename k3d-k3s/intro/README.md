@@ -1,3 +1,4 @@
+Originally published at: [dev.to](https://dev.to/danielcristho/exploring-k3s-on-docker-using-k3d-19hk)
 # Exploring K3S on Docker using K3D
 
 In this post, I’ll show you how to start with [K3D](https://k3d.io/stable), an awesome tool for running lightweight Kubernetes clusters using [K3S](https://docs.k3s.io/) on Docker. I hope this post will help you quickly set up and understand K3D. Let’s dive in!

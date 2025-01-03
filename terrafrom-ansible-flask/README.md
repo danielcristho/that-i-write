@@ -1,3 +1,4 @@
+Originally published at: [my personal blog](https://danielcristho.site/blog/automating-flask-and-postgres-using-terraform-ansible) & [dev.to](https://dev.to/danielcristho/provisioning-flask-and-postgresql-on-kvm-with-terraform-and-ansible-55kn)
 ## 😀 Intro
 
 Hi, in this post, we will use [Libvirt](https://libvirt.org/) with [Terraform](https://developer.hashicorp.com/terraform?product_intent=terraform) to provision 2 KVM locally and after that, we will Deploy Flask App & PostgreSQL using [Ansible](https://www.ansible.com).
