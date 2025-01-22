@@ -43,11 +43,11 @@ def publish_to_devto(file_path, title, tags=None, published=True):
 
 if __name__ == "__main__":
     # Path to the markdown file
-    file_path = "read-from-book/kubernetes-untuk-pemula/kubernetes103-object.md"
+    file_path = "read-from-book/kubernetes-untuk-pemula/kubernetes104-controllers.md"
 
     # Define article title and tags
-    title = "Kubernetes 103: Object"
-    tags = ["Kubernetes", "Beginners", "DevOps"]
+    title = "Kubernetes 104: Controller"
+    tags = ["Beginners", "DevOps", "Kubernetes"]
 
     # Publish article
     publish_to_devto(file_path, title, tags)
