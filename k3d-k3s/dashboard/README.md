@@ -1,6 +1,5 @@
 # K3D: Monitoring Your Service using Kubernetes Dashboard or Octant
 
-
 ![Cover](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z1f5ezna2e3vwm2fu038.png)
 
 K3D is a lightweight wrapper around k3s that allows you to run Kubernetes clusters inside Docker containers. While K3D is widely used for local development and testing, effective monitoring of services running on Kubernetes clusters is essential for debugging, performance tuning, and understanding resource usage.

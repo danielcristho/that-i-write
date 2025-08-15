@@ -1,0 +1,8 @@
+module example.com/go-api
+
+go 1.22.4
+
+require (
+	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be // indirect
+	github.com/go-chi/chi/v5 v5.2.2 // indirect
+)
