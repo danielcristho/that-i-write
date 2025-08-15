@@ -1,5 +1,7 @@
 # Deploying a Simple Flask API Using Gunicorn, Supervisor & Nginx
 
+![Post Cover](https://res.cloudinary.com/diunivf9n/image/upload/v1746025148/flask-api-cover_rjthep.png)
+
 ## Intro
 
 Hi there! Flask is great for building APIs quickly. But turning your local project into a publicly accessible web service involves a few extra steps that aren’t always obvious.
