@@ -1,2 +1,2 @@
-# Dockerizing Go API & and Caddy
+# Dockerizing Go API and Caddy
 
