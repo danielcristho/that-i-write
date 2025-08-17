@@ -1,13 +1,15 @@
 # Dockerizing Go API and Caddy
 
-Hello! In this post I'll walk through how to use Caddy as a reverse proxy and Docker for containerization to deploy a simple Go API. This method offers a quick and modern to getting your Go API up and running.
+![Cover](https://res.cloudinary.com/diunivf9n/image/upload/v1755401605/go-caddy-docker_zooyhi.png)
+
+Hello! In this post, I'll walk through how to use Caddy as a reverse proxy and Docker for containerization to deploy a simple Go API. This method offers a quick and modern way to get your Go API up and running.
 
 Before we dive into the deployment steps, let's briefly discuss why Docker and Caddy are an excellent combination.
 
-- **Docker** is a containerization platform that packages your app and all its dependecies into an isolated unit. This guarantess that your app runs consistenly everywhere, eliminating the classic *"it works on my machine"* problem.
+- **Docker** is a containerization platform that packages your app and all its dependencies into an isolated unit. This guarantees that your app runs consistently everywhere, eliminating the classic *"it works on my machine"* problem.
 
 <div style="text-align:center">
-  <img src="./docker-meme.png" alt="it works on my machine meme" width="300"/>
+  <img src="https://res.cloudinary.com/diunivf9n/image/upload/v1755401332/docker-meme_n1ca7c.png" alt="it works on my machine meme" width="400"/>
 </div>
 
 - **Dockerile** is the blueprint that defines how your Docker image is built. It specifies the base image, the steps to compile your application, and how the container should run.
@@ -87,13 +89,10 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 
 3. In the main function, we:
 
-    - Initialize the Chi router and register both routes.
-
-    - Configure an HTTP server to listen on port 8081.
-
-    - Run the server in a goroutine and listen for shutdown signals (SIGINT, SIGTERM).
-
-    - Gracefully shut down the server with a 5-second timeout when a termination signal is received.
+> Initialize the Chi router and register both routes.
+> Configure an HTTP server to listen on port 8081.
+> Run the server in a goroutine and listen for shutdown signals (SIGINT, SIGTERM).
+> Gracefully shut down the server with a 5-second timeout when a termination signal is received.
 
 ```go
 func main() {
@@ -247,13 +246,13 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -o /go/bin/app
 ```
 
-- In the builder stage, we use the official Go image (golang:1.24) to compile our code.
-- We copy the entire project into the container and run go mod download to fetch dependencies.
-- Then we build the binary with CGO_ENABLED=0 to ensure it’s statically compiled and portable. The binary is placed in /go/bin/app.
+- In the builder stage, we use the official Go image to compile our code.
+- We copy the entire project into the container and run `go mod download` to fetch dependencies.
+- Then we build the binary with `CGO_ENABLED=0` to ensure it’s statically compiled and portable. The binary is placed in `/go/bin/app`.
 
 ```dockerfile
 # Second stage: final image
-FROM golang:1.24
+FROM golang:1.24-alpine
 
 # Copy only the compiled binary from builder stage
 COPY --from=builder /go/bin/app /
@@ -265,8 +264,7 @@ ENV PORT 8081
 CMD ["/app"]
 ```
 
-- In the final stage, we again start from the golang:1.24 base image (but ideally this could be replaced with something smaller like alpine or scratch to further reduce size).
-- Only the compiled binary is copied over from the builder stage. This keeps the image small because source code, dependencies, and build tools are excluded.
+- In the final stage, only the compiled binary is copied over from the builder stage. This keeps the image small because source code, dependencies, and build tools are excluded.
 - We expose port 8081 so Docker knows which port the app listens on.
 - `CMD ["/app"]` runs the binary as the container’s main process.
 
@@ -283,7 +281,7 @@ RUN go mod download
 
 RUN CGO_ENABLED=0 go build -o /go/bin/app
 
-FROM golang:1.24
+FROM golang:1.24-alpine
 
 COPY --from=builder /go/bin/app /
 
@@ -294,14 +292,12 @@ ENV PORT 8081
 CMD ["/app"]
 ```
 
-> 💡 Instead of `golang:1.24` for the final stage, you can switch to something lighter to reduce image size.
-
 ### Step 3: Configure Caddy
 
 Caddy will act as a reverse proxy that forwards incoming requests to the Go API container. This allows us to:
 
 - Tells Caddy to listen on port 80 (HTTP).
-- Forwards requests to the Go API container, using the Docker service name go-api and port 8081.
+- Forwards requests to the Go API container, using the Docker service name `go-api` and port 8081.
 
 Create a file named `Caddyfile` in your project directory:
 
@@ -320,6 +316,103 @@ api.example.com {
 ```
 
 ### Step 4: Configure Docker Compose
+
+Create a file named docker-compose.yml in your project directory:
+
+```yml
+version: "3.8"
+
+services:
+  go-api:
+    build: .
+    container_name: go-api
+    ports:
+      - "8081"
+    restart: unless-stopped
+  caddy:
+    image: caddy:2.10-alpine
+    container_name: caddy
+    ports:
+      - "8082:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    depends_on: 
+      - go-api
+      
+volumes:
+  caddy_data:
+  caddy_config:
+```
+
+#### Explanation
+
+`go-api` service
+
+- Built from your local Dockerfile.
+- The Go API will listen on :8081, but only Caddy can access it.
+
+`caddy` service
+
+- Uses the official lightweight caddy:2.10-alpine image.
+- `ports: "8082:80"` -> exposes port 80 from the container to port 8082 on your host machine.
+So when you open `http://127.0.0.1:8082`, requests are routed through Caddy.
+- The Caddyfile is mounted so you can configure reverse proxy behavior.
+- `depends_on` ensures Caddy waits for the Go API container to start.
+
+### Step 5: Test the Setup
+
+Once all files are ready (`main.go`, `Dockerfile`, `Caddyfile`, `docker-compose.yml`), run the stack using `docker compose up` command:
+
+```sh
+├── Caddyfile
+├── docker-compose.yml
+├── Dockerfile
+├── go.mod
+├── go.sum
+└── main.go
+```
+
+```sh
+$ docker compose up -d --build
+```
+
+Make sure the containers are running using `docker ps` command:
+
+```sh
+$ docker ps
+
+CONTAINER ID   IMAGE                          COMMAND                  CREATED         STATUS         PORTS
+                                                      NAMES
+6b6b35487d77   caddy:2.10-alpine              "caddy run --config …"   9 minutes ago   Up 9 minutes   443/tcp, 2019/tcp, 443/udp, 0.0.0.0:8082->80/tcp, [::]:8082->80/tcp   caddy
+20cbb2209fe7   docker-go-api-caddy_go-api     "/app"                   9 minutes ago   Up 9 minutes   0.0.0.0:32770->8081/tcp, [::]:32770->8081/tcp
+```
+
+Now, test the endpoints through Caddy (reverse proxy):
+
+```sh
+$ curl http://127.0.0.1:8082
+```
+
+Expected output: the ASCII art rendered by `go-figure`.
+
+```sh
+$ curl http://127.0.0.1:8082/api/hello
+```
+
+Expected output:
+
+```sh
+{"message":"Hello, World!"}
+```
+
+### Conclusion
+
+In this guide, we successfully deployed a simple Go API containerized approach. By leveraging Docker, we created an isolated and reproducible environment for our application. We used a multi-stage build in our Dockerfile to keep the final image lightweight and secure, and Docker Compose to easily manage both our Go API and Caddy services with a single command.
+
+Feel free to explore further by adding more features to your API or by setting up a domain with Caddy's automatic HTTPS. Happy deployment!🚀
 
 References:
 
