@@ -131,7 +131,7 @@ func main() {
 }
 ```
 
-Here the full code:
+Here is the full code:
 
 ```go
 package main
@@ -268,7 +268,7 @@ CMD ["/app"]
 - We expose port 8081 so Docker knows which port the app listens on.
 - `CMD ["/app"]` runs the binary as the container’s main process.
 
-Here the full code:
+Here is the full code:
 
 ```dockerfile
 FROM golang:1.24 AS builder
