@@ -1,6 +1,6 @@
 # That I Write
 
-Just a bunch of stuff I wrote. This repository is kinda like a collection of my public projects and writings.
+Just a bunch of stuff I wrote. Most of them start as little explorations or experiments, and later turn into blog posts.
 
 ## Latest Post
 
