@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  load_balancer:
+    image: caddy:2.10-alpine
+    container_name: load_balancer
+    ports:
+      - "8082:80"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+  worker_1:
+    build: ./src
+    container_name: worker_1
+    hostname: worker_1
+    expose:
+      - "8081"
+  worker_2:
+    build: ./src
+    container_name: worker_2
+    hostname: worker_2
+    expose:
+      - "8081"
+  worker_3:
+    build: ./src
+    container_name: worker_3
+    hostname: worker_3
+    expose:
+      - "8081"
+

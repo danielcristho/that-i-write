@@ -1,0 +1,5 @@
+:80 {
+    reverse_proxy worker_1:8081  worker_2:8081  worker_3:8081 {
+		lb_policy round_robin
+	}
+}
