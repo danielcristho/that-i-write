@@ -147,7 +147,7 @@ Now that our project is set up, we can start experimenting. To run the project, 
 
 This is the most common and simplest load balancing algorithm. Caddy distributes incoming requests to the backend servers in a sequential, rotating manner. It's a fair and predictable method, assuming all servers are equally capable of handling the load.
 
-How to Configure:
+**How to Configure**:
 
 Modify your `caddy/Caddyfile` to use the `round_robin` policy.
 
@@ -161,7 +161,7 @@ Modify your `caddy/Caddyfile` to use the `round_robin` policy.
 }
 ```
 
-How to Test:
+**How to Test**:
 
 After running `docker-compose up -d --build`, open your terminal and send a few requests using `curl`. You should see that Caddy distributes the traffic evenly among the three workers.
 
@@ -199,7 +199,7 @@ This algorithm is a more advanced version of Round Robin. It allows you to assig
 
 You can also use this policy to gradually drain traffic from an old server or ramp up traffic to a new one during deployments, making it a very useful strategy.
 
-How to Configure:
+**How to Configure**:
 
 To use this policy, you need to add the weight to each server's address in the `Caddyfile`. For our example, let's give `worker_1` a higher weight of 3, while `worker_2` and `worker_3` each have a weight of 1. This means `worker_1` should handle three out of every five requests.
 
@@ -215,7 +215,7 @@ To use this policy, you need to add the weight to each server's address in the `
 
 After updating the `Caddyfile`, make sure to reload or restart your Caddy container to apply the changes. You can do this with `docker-compose up -d --build`.
 
-How to Test:
+**How to Test**:
 
 Now, let's send a few requests to our load balancer and see how Caddy distributes the traffic according to the assigned weights. Send a few requests using curl and observe the responses.
 
@@ -236,15 +236,15 @@ $ curl http://127.0.0.1:8082
 # Output: Hello from worker_1
 ```
 
-![Weighted Round Robin](https://res.cloudinary.com/diunivf9n/image/upload/v1756296739/weighted-round-robin_jndvgp.gif)
+![Weighted Round Robin Demo](https://res.cloudinary.com/diunivf9n/image/upload/v1756296739/weighted-round-robin_jndvgp.gif)
 
 **3.** Least Connection (`lb_policy ip_hash`)
 
 Aight let's dive into Least Connection, unlike Round Robin which is a simple, sequential algorithm, Least Connection is a dynamic and more intelligent load balancing policy. It chooses the backend server with the fewest number of currently active requests. This policy is excellent for situations where your requests have a highly variable processing time.
 
-For example, if one of your servers gets a handful of complex, long-running requests while the others are handling many small, quick ones, this algorithm will automatically route new traffic to the servers that are less burdened, preventing a single server from becoming a bottleneck. If there's a tie—meaning two or more servers have the same lowest number of connections—Caddy will randomly choose one of them.
+For example, if one of your servers gets a handful of complex, long-running requests while the others are handling many small, quick ones, this algorithm will automatically route new traffic to the servers that are less burdened, preventing a single server from becoming a bottleneck. If there's a tie meaning two or more servers have the same lowest number of connections Caddy will randomly choose one of them.
 
-How to Configure
+**How to Configure**:
 
 Configuring this policy is simple. You just need to change the `lb_policy` directive in your Caddyfile.
 
@@ -260,11 +260,11 @@ Configuring this policy is simple. You just need to change the `lb_policy` direc
 
 After updating your `Caddyfile`, make sure to restart your Caddy container with `docker-compose up -d --build` to apply the changes.
 
-How to Test
+**How to Test**:
 
 To demonstrate the Least Connection algorithm, you'll need to modify your Go code to simulate a long-running request. This will allow you to see how Caddy intelligently routes traffic away from the busy worker.
 
-**-** Update Your Go Code
+**-** `Update Your Go Code`
 
 Open your `src/main.go` file and add a new handler that will simulate a task with a significant delay. This will act as our "long-running request."
 
@@ -296,7 +296,7 @@ func main() {
 }
 ```
 
-**-** Rebuild and Run Docker Compose
+**-** `Rebuild and Run Docker Compose`
 
 After updating your code, you must rebuild and run your containers to apply the changes.
 
@@ -304,7 +304,7 @@ After updating your code, you must rebuild and run your containers to apply the 
 $ docker-compose up -d --build
 ```
 
-**-** Test the Scenario
+**-** `Test the Scenario`
 
 Now, you can test the Least Connection algorithm using two separate terminals.
 
@@ -340,7 +340,7 @@ You will observe that Caddy will not send requests to the worker that is current
 
 The IP Hash load balancing algorithm is different from the previous ones because it's focused on session persistence. Instead of distributing requests based on a sequential or random order, it creates a hash from the client's IP address and uses that hash to consistently route all requests from that same client to the **same backend server**.
 
-How to Configure
+**How to Configure**:
 
 Configuring the IP Hash policy is straightforward. You simply need to replace the lb_policy directive in your Caddyfile with `ip_hash`.
 
@@ -356,13 +356,13 @@ Configuring the IP Hash policy is straightforward. You simply need to replace th
 
 After updating your Caddyfile, make sure to restart your Caddy container with `docker-compose up -d --build` to apply the changes.
 
-How to Test
+**How to Test**:
 
 To test this algorithm, you'll need to send requests from different "clients" (i.e., different IP addresses) and observe where they are routed. The easiest way to simulate this is by sending requests from your local machine and then using a proxy or a different network to see if the requests are routed to a different server.
 
 ![IP Hash Demo](https://res.cloudinary.com/diunivf9n/image/upload/v1756304737/ip-hash_pu8wqw.gif)
 
-No matter how many times you run `curl` from the same machine, the requests will always be routed to the same worker. This is because Caddy is hashing your local IP address (127.0.0.1 or the container's internal IP) and consistently mapping it to that specific worker.
+No matter how many times you run `curl` from the same machine, the requests will always be routed to the same worker. **This is because Caddy is hashing your local IP address (127.0.0.1 or the container's internal IP) and consistently mapping it to that specific worker**.
 
 This demonstrates how IP Hash ensures **session stickiness** without needing to share session data across all servers. It’s a powerful tool for maintaining a consistent user experience.
 
@@ -372,7 +372,7 @@ The Random load balancing policy is the simplest and most unpredictable of all t
 
 While it may seem less sophisticated than other algorithms, the Random policy is surprisingly effective in many scenarios. It's fast, has a very low overhead, and can be a great choice for distributing traffic evenly across a large pool of homogenous servers. It naturally avoids the **"thundering herd"** problem that can sometimes occur with Round Robin on **first-come-first-served** requests, as it prevents all clients from hitting the same server at the same time.
 
-How to Configure
+**How to Configure**:
 
 Configuring this policy is the easiest. Simply replace the `lb_policy` directive in your Caddyfile with `random`.
 
@@ -388,7 +388,7 @@ Configuring this policy is the easiest. Simply replace the `lb_policy` directive
 
 After updating your Caddyfile, make sure to restart your Caddy container with `docker-compose up -d --build` to apply the changes.
 
-How to Test
+**How to Test**:
 
 To test the Random policy, send a series of quick requests and observe the output. Unlike the predictable pattern of Round Robin or the consistent output of IP Hash, the responses will come from different workers in an unpredictable order.
 
