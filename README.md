@@ -7,6 +7,7 @@ Just a bunch of stuff I wrote. Most of them start as little explorations or expe
 ### Aug 2025
 | Title | Links |
 |-------|-------|
+| **Exploring Load Balancing in Caddy Using Docker** | [Personal Blog](https://danielcristho.site/blog/go-caddy-load-balancer) · [Dev.to](https://dev.to/danielcristho/exploring-load-balancing-in-caddy-using-docker-5gn6) · [Medium](https://medium.com/@danielpepuho/exploring-load-balancing-in-caddy-using-docker-26e396a2570b) |
 | **Dockerizing Go API and Caddy** | [Personal Blog](https://danielcristho.site/blog/dockerizing-go-api-caddy) · [Dev.to](https://dev.to/danielcristho/dockerizing-go-api-and-caddy-ge4) · [Medium](https://medium.com/@danielpepuho/dockerizing-go-api-and-caddy-27a5f313ef59) |
 
 ### Apr 2025

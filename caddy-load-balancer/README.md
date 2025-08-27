@@ -34,7 +34,7 @@ Our setup is composes of three main parts:
 
 **3.** **Docker Compose (`docker.compose.yml`)**: This file orchestrates everything, defining and running our multi-container application with a single-command.
 
-## Understading the Components
+## Understanding the Components
 
 Let's break down the files in our project.
 
@@ -195,7 +195,7 @@ Now, send a few more requests. What do you expect to happen? With `worker_1` dow
 
 **2.** Weighted Round Robin (`lb_policy weighted_round_robin`)
 
-This algorithm is a more advanced version of Round Robin. It allows you to assign a "weight" to each backend server, which determines its share of the requests. Servers with a higher weight will receive more traffic than those with a lower weight. This is ideal when you have servers with varying capacities, for example, a new, more powerful server and an older, less powerful one.
+This algorithm is a more advanced version of Round Robin. It allows you to assign a "weight" to each backend server, which determines its share of the requests. **Servers with a higher weight will receive more traffic than those with a lower weight**. **This is ideal when you have servers with varying capacities, for example, a new, more powerful server and an older, less powerful one**.
 
 You can also use this policy to gradually drain traffic from an old server or ramp up traffic to a new one during deployments, making it a very useful strategy.
 
@@ -240,9 +240,9 @@ $ curl http://127.0.0.1:8082
 
 **3.** Least Connection (`lb_policy ip_hash`)
 
-Aight let's dive into Least Connection, unlike Round Robin which is a simple, sequential algorithm, Least Connection is a dynamic and more intelligent load balancing policy. It chooses the backend server with the fewest number of currently active requests. This policy is excellent for situations where your requests have a highly variable processing time.
+Aight, let's dive into Least Connection. Unlike Round Robin, which is a simple, sequential algorithm, Least Connection is a dynamic and more intelligent load balancing policy. It chooses the backend server with the fewest number of currently active requests. This policy is excellent for situations where your requests have a highly variable processing time.
 
-For example, if one of your servers gets a handful of complex, long-running requests while the others are handling many small, quick ones, this algorithm will automatically route new traffic to the servers that are less burdened, preventing a single server from becoming a bottleneck. If there's a tie meaning two or more servers have the same lowest number of connections Caddy will randomly choose one of them.
+For example, if one of your servers gets a handful of complex, long-running requests while the others are handling many small, quick ones, this algorithm will automatically route new traffic to the servers that are less burdened, preventing a single server from becoming a bottleneck. If there's a tie, meaning two or more servers have the same lowest number of connections, Caddy will randomly choose one of them.
 
 **How to Configure**:
 
