@@ -4,6 +4,11 @@ Just a bunch of stuff I wrote. Most of them start as little explorations or expe
 
 ## Archive
 
+### Nov 2025
+
+|-------|-------|
+| **My First Experience as a Speaker at AWS Community Day 2025** | [Personal Blog](https://danielcristho.site/blog/aws-community-day-first-experience) · [Dev.to](https://dev.to/danielcristho/my-first-experience-as-a-speaker-at-aws-community-day-2ki3) |
+
 ### Aug 2025
 | Title | Links |
 |-------|-------|
