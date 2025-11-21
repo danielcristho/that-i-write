@@ -79,7 +79,7 @@ services:
       start_period: 30s
 ```
 
-## Under the Hood (process supervision)
+## 🔧 Under the Hood (process supervision)
 
 ![Supervisor meme](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vs50q9kmku12resihs17.jpg)
 
