@@ -7,6 +7,7 @@ Just a bunch of stuff I wrote. Most of them start as little explorations or expe
 ### Nov 2025
 | Title | Links |
 |-------|-------|
+| **Running Firefox in Docker? Yes, with a GUI and noVNC** | [Personal Blog](https://danielcristho.site/blog/run-firefox-on-docker) | [Dev.to](https://dev.to/danielcristho/running-firefox-in-docker-yes-with-a-gui-and-novnc-5fk) | [Medium](https://medium.com/@danielpepuho/running-firefox-in-docker-yes-with-a-gui-and-novnc-8f5f9ca9dbdb)
 | **My First Experience as a Speaker at AWS Community Day 2025** | [Personal Blog](https://danielcristho.site/blog/aws-community-day-first-experience) · [Dev.to](https://dev.to/danielcristho/my-first-experience-as-a-speaker-at-aws-community-day-2ki3) |
 
 ### Aug 2025
