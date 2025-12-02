@@ -370,7 +370,7 @@ After running all compression, transfer, decompression, and loading tests across
 
 **-** Occasional small image transfers
 
-## TL;DR
+## Conclusion
 
 If you need to compress Docker images, here’s the quick answer:
 
