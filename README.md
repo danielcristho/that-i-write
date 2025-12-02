@@ -4,6 +4,12 @@ Just a bunch of stuff I wrote. Most of them start as little explorations or expe
 
 ## Archive
 
+### Dec 2025
+
+| Title                                   | Links                                                                                                                                         |
+|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Docker Image Compression: gzip vs zstd  | • [Personal Blog](https://danielcristho.site/blog/docker-image-compression)<br>• [Dev.to](https://dev.to/danielcristho/docker-image-compression-gzip-vs-zstd-4eod)<br>• [Medium](https://medium.com/@danielpepuho/docker-image-compression-gzip-vs-zstd-1b342222d7e7?postPublishedType=repub) |
+
 ### Nov 2025
 
 | Title | Links |
