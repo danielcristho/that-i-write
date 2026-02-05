@@ -23,7 +23,7 @@ class CdkEksStack(Stack):
             max_azs=2 # AZ
         )
         
-        cluster = eks.Cluster(
+        self.cluster = eks.Cluster(
             self,
             "EksCluster",
             version=eks.KubernetesVersion.V1_32,
@@ -32,7 +32,7 @@ class CdkEksStack(Stack):
             kubectl_layer=kubectl_layer
         )
         
-        cluster.add_nodegroup_capacity(
+        self.cluster.add_nodegroup_capacity(
             "ManagedNodeGroup",
             desired_size=2,
             min_size=1,
@@ -40,7 +40,7 @@ class CdkEksStack(Stack):
             instance_types=[ec2.InstanceType("t3.medium")], # 2vcpu/4gi
         )
         
-        cluster.aws_auth.add_user_mapping(
+        self.cluster.aws_auth.add_user_mapping(
             iam.User.from_user_name(
             self,
             "AdminUser",
