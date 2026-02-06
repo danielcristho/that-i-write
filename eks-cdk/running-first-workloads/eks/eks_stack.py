@@ -44,7 +44,7 @@ class CdkEksStack(Stack):
             iam.User.from_user_name(
             self,
             "AdminUser",
-            "<YOUR_IAM>"
+            "onomi"
             ),
             groups=["system:masters"],
         )

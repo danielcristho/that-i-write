@@ -18,17 +18,6 @@ class RunningFirstWorkloadsStack(Stack):
     ) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-class RunningFirstWorkloadsStack(Stack):
-
-    def __init__(
-        self,
-        scope: Construct,
-        construct_id: str,
-        cluster: eks.Cluster,
-        **kwargs
-    ) -> None:
-        super().__init__(scope, construct_id, **kwargs)
-
         # ConfigMap for Caddyfile
         cluster.add_manifest(
             "CaddyConfig",
@@ -41,7 +30,7 @@ class RunningFirstWorkloadsStack(Stack):
                 "data": {
                     "Caddyfile": """
 :80 {
-    respond "Hello from Caddy v1"
+    respond "Hello from Caddy v2"
 }
 """
                 }
